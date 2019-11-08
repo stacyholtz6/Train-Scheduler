@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Train Scheduler</title>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <!-- my css -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- font aweswome -->
+  <script src="https://kit.fontawesome.com/02403185ac.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <div class="container main">
+    <br>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron">
+      <h1 class="text-center">Train Time</h1>
+    </div>
+
+    <!-- Train Schedule Table -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card border-primary">
+          <div class="card-header">Current Train Schedule</div>
+
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Train Name</th>
+                  <th scope="col">Destination</th>
+                  <th scope="col">Frequency (min)</th>
+                  <th scope="col">Next Arrival</th>
+                  <th scope="col">Minutes Away</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Amtrak</td>
+                  <td>Denver</td>
+                  <td>30</td>
+                  <td>01:35PM</td>
+                  <td>10</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    
+    <!-- Add train form -->
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card border-primary">
+          <div class="card-header">Add Train</div>
+
+          <div class="card-body">
+            <form>
+              <div class="form-group">
+                <label for="trainName">Train Name</label>
+                <input type="text" class="form-control" id="trainName">
+              </div>
+              <div class="form-group">
+                <label for="destination">Destination</label>
+                <input type="text" class="form-control" id="destination">
+              </div>
+              <div class="form-group">
+                <label for="trainTime">First Train Time (HH:mm - military time)</label>
+                <input type="text" class="form-control" id="trainTime">
+              </div>
+              <div class="form-group">
+                <label for="frequency">Frequency (min)</label>
+                <input type="text" class="form-control" id="frequency">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <!-- footer -->
+  <nav class="navbar fixed-bottom bg-dark justify-content-center">
+    <a class="navbar-brand nav-link copy" href="https://stacyholtz6.github.io/Bootstrap-Portfolio/">&copy;Stacy
+      Holtz</a>
+    <a class="nav-link" href="https://github.com/stacyholtz6"><i class="fab fa-github"></i></a>
+  </nav>
+
+
+  <!-- bootstrap -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <!-- my js -->
+  <script src="assets/javascript/app.js"></script>
+</body>
+
+</html>
