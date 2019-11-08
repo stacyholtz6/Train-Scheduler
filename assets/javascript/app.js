@@ -1,4 +1,4 @@
-// Your web app's Firebase configuration
+//Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyAnbyGg3J43mKeZr6sXaE4O5tvKvnEuMPI",
   authDomain: "train-scheduler-f84a0.firebaseapp.com",
@@ -12,6 +12,53 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
+// initial varibles
+var trainName = "";
+var Traindestination = "";
+// number???
+var firstTrainTime = "";
+// fequency number???
+var Trainfrequency = "";
+
+// fields in table.... 
+// next arrival number???
+var nextArrival = "";
+// minutes away number???
+var minutesAway = "";
+
+// onclick to add train to the firebase after user fills out the form. 
+$("#add-train").on("click", function (event) {
+  event.preventDefault();
+  trainName = $("#train-name-input").val().trim();
+  Traindestination = $("#destination-input").val().trim();
+  firstTrainTime = $("#train-time-input").val().trim();
+  Trainfrequency = $("#frequency-input").val().trim();
+  console.log('trainName', trainName);
+  console.log('destination', Traindestination);
+  console.log('firstTrainTime', firstTrainTime);
+  console.log('frequency', Trainfrequency);
+
+  // add them to firebase database
+  firebase.database().ref().push({
+    name: trainName,
+    destination: Traindestination,
+    frequency: Trainfrequency,
+    dateAdded: firebase.database.ServerValue.TIMESTAMP
+  });
+
+});
+
+// take the data from the database and put it in the train table
+// currently will be ordered by the date added - not quite what I wanted - only puts in one train..... 
+firebase.database().ref().orderByChild("dateAdded").limitToLast(15).on("child_added", function (snapshot) {
+  $("#train-name-display").text(snapshot.val().name);
+  $("#destination-display").text(snapshot.val().destination);
+  $("#frequency-display").text(snapshot.val().frequency);
+  // still need to figure out nextArrival & minutesAway -- Moment.js
+})
+
+// need to append the table to get a list of the trians added
+// needt to figure out how to use moment.js
 
 
 // var name = "";
@@ -39,7 +86,7 @@ firebase.initializeApp(firebaseConfig);
 //   })
 // })
 
-// // add a new listener to add all members to the well
+// // add a new listener to add all members to the well - give list of all members in the database
 // firebase.database().ref().on("child_added", function (snapshot) {
 //   $(".well").append("<p>" + snapshot.val().name + "</p>");
 //   $(".well").append("<p>" + snapshot.val().email + "</p>");
