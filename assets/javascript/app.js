@@ -11,95 +11,94 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+var database = firebase.database();
 
-// initial varibles
-var trainName = "";
-var Traindestination = "";
-// number???
-var firstTrainTime = "";
-// fequency number???
-var Trainfrequency = "";
 
-// fields in table.... 
-// next arrival number???
-var nextArrival = "";
-// minutes away number???
-var minutesAway = "";
-
-// onclick to add train to the firebase after user fills out the form. 
-$("#add-train").on("click", function (event) {
+// button for adding trains
+$("#add-train-btn").on("click", function (event) {
   event.preventDefault();
-  trainName = $("#train-name-input").val().trim();
-  Traindestination = $("#destination-input").val().trim();
-  firstTrainTime = $("#train-time-input").val().trim();
-  Trainfrequency = $("#frequency-input").val().trim();
-  console.log('trainName', trainName);
-  console.log('destination', Traindestination);
-  console.log('firstTrainTime', firstTrainTime);
-  console.log('frequency', Trainfrequency);
 
-  // add them to firebase database
-  firebase.database().ref().push({
+  // grab user input
+  var trainName = $("#train-name-input").val().trim();
+  var trainDestination = $("#destination-input").val().trim();
+  var firstTrainTime = $("#train-time-input").val().trim();
+  var trainFequency = $("#frequency-input").val().trim();
+
+  // creates local "temporary" object for holding train data
+  var newTrain = {
     name: trainName,
-    destination: Traindestination,
-    frequency: Trainfrequency,
-    dateAdded: firebase.database.ServerValue.TIMESTAMP
-  });
+    destination: trainDestination,
+    start: firstTrainTime,
+    frequency: trainFequency
+  };
+
+  // send the train data to firebase
+  database.ref().push(newTrain);
+
+  // error checking
+  console.log('trainName', trainName);
+  console.log(' trainDestination', trainDestination);
+  console.log('firstTrainTime', firstTrainTime);
+  console.log('trainFequency', trainFequency);
+
+  // clear the inputs
+  $("#train-name-input").val("");
+  $("#destination-input").val("");
+  $("#train-time-input").val("");
+  $("#frequency-input").val("");
 
 });
 
-// take the data from the database and put it in the train table
-// currently will be ordered by the date added - not quite what I wanted - only puts in one train..... 
-firebase.database().ref().orderByChild("dateAdded").limitToLast(15).on("child_added", function (snapshot) {
-  $("#train-name-display").text(snapshot.val().name);
-  $("#destination-display").text(snapshot.val().destination);
-  $("#frequency-display").text(snapshot.val().frequency);
-  // still need to figure out nextArrival & minutesAway -- Moment.js
-})
+// add new train to train table - use moment to get the values for next arrival & minutes away
+database.ref().on("child_added", function (childSnapshot) {
 
-// need to append the table to get a list of the trians added
-// needt to figure out how to use moment.js
+  // store everything into variable
+  var trainName = childSnapshot.val().name;
+  var trainDestination = childSnapshot.val().destination;
+  var firstTrainTime = childSnapshot.val().start;
+  var trainFrequency = childSnapshot.val().frequency;
+
+  // console log for error checking
+  console.log('trainName', trainName);
+  console.log('trainDestination', trainDestination);
+  console.log('firstTrainTime', firstTrainTime);
+  console.log('trainFrequency', trainFrequency);
+
+  // use moment to convert train time, get values for next arrival & minutes away....
+
+  // pushes firstTrainTime back one yer to make sure it comes before current time
+  var convertedTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "years");
+  console.log('convertedTrainTime', convertedTrainTime);
+
+  // figure out the difference between the times
+  var diffTime = moment().diff(moment(convertedTrainTime), "minutes");
+  console.log('diffTime', diffTime);
+
+  // figure out the time apart (remainder %)
+  var remainder = diffTime % trainFrequency;
+  console.log(' remainder', remainder);
+
+  // find minutes until next trail
+  var minutesAway = trainFrequency - remainder;
+  console.log('minutesAway', minutesAway);
+
+  // next train arrival
+  var nextTrain = moment().add(minutesAway, "minutes");
+  console.log('nextTrain', nextTrain);
+
+  // create the new row in the table
+  var newRow = $("<tr>").append(
+    $("<td>").text(trainName),
+    $("<td>").text(trainDestination),
+    $("<td>").text(trainFrequency),
+    $("<td>").text((nextTrain).format("HH:mm")),
+    $("<td>").text(minutesAway),
+  )
+
+  // append the new row to the table
+  $("#train-table > tbody").append(newRow);
 
 
-// var name = "";
-// var email = "";
-// var age = 0;
-// var comment = "";
+});
 
-// $("#add-user").on("click", function (event) {
-//   event.preventDefault();
-//   name = $("#name-input").val().trim();
-//   email = $("#email-input").val().trim();
-//   age = $("#age-input").val().trim();
-//   comment = $("#comment-input").val().trim();
-//   console.log('name', name);
-//   console.log('email', email);
-//   console.log(' age', age);
-//   console.log(' comment', comment);
 
-//   firebase.database().ref().push({
-//     name: name,
-//     email: email,
-//     age: age,
-//     comment: comment,
-//     dateAdded: firebase.database.ServerValue.TIMESTAMP
-//   })
-// })
-
-// // add a new listener to add all members to the well - give list of all members in the database
-// firebase.database().ref().on("child_added", function (snapshot) {
-//   $(".well").append("<p>" + snapshot.val().name + "</p>");
-//   $(".well").append("<p>" + snapshot.val().email + "</p>");
-//   $(".well").append("<p>" + snapshot.val().age + "</p>");
-//   $(".well").append("<p>" + snapshot.val().comment + "</p>");
-//   $(".well").append("<hr>");
-// });
-
-// // take data in database and put it in the most recent user area
-// // orders all of the keys by the property dateAdded.....
-// firebase.database().ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function (snapshot) {
-//   $("#name-display").text(snapshot.val().name);
-//   $("#email-display").text(snapshot.val().email);
-//   $("#age-display").text(snapshot.val().age);
-//   $("#comment-display").text(snapshot.val().comment);
-// })
