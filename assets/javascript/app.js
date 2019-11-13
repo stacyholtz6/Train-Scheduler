@@ -13,7 +13,6 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
-
 // button for adding trains
 $("#add-train-btn").on("click", function (event) {
   event.preventDefault();
@@ -63,8 +62,7 @@ database.ref().on("child_added", function (childSnapshot) {
   console.log('trainDestination', trainDestination);
   console.log('firstTrainTime', firstTrainTime);
   console.log('trainFrequency', trainFrequency);
-
-  // use moment to convert train time, get values for next arrival & minutes away....
+  console.log('childSnapshot.val()', childSnapshot);
 
   // pushes firstTrainTime back one yer to make sure it comes before current time
   var convertedTrainTime = moment(firstTrainTime, "HH:mm").subtract(1, "years");
@@ -87,18 +85,29 @@ database.ref().on("child_added", function (childSnapshot) {
   console.log('nextTrain', nextTrain);
 
   // create the new row in the table
-  var newRow = $("<tr>").append(
+  var newRow = $("<tr id='remove'>").append(
     $("<td>").text(trainName),
     $("<td>").text(trainDestination),
     $("<td>").text(trainFrequency),
     $("<td>").text((nextTrain).format("HH:mm")),
     $("<td>").text(minutesAway),
+    $("<td>").html("<i class='fas fa-trash-alt'  data-key=" + childSnapshot.key + "></i>")
   )
-
   // append the new row to the table
   $("#train-table > tbody").append(newRow);
-
-
 });
 
+// this deletes it from firebase - have to find the unique key assigned to each train
+$("#train-table").on("click", ".fas", function () {
+  var key = $(this).attr("data-key");
+  database.ref(key).remove();
+  console.log('key', key);
+});
+
+// remove the row from the table when the icon is clicked
+$(document).on("click", ".fas", function () {
+  $(this).closest("tr").remove();
+  return false;
+  console.log("this" + this);
+});
 
