@@ -1,7 +1,7 @@
 # Train-Scheduler
 
 ### Link to Live Game:
-[Train-Scheduler]()
+[Train-Scheduler](https://stacyholtz6.github.io/Train-Scheduler/)
 
 ## Objective:
 ```
