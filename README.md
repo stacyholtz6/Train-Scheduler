@@ -43,7 +43,7 @@
 - Add a train to the table and watch moment.js calculate train times.
 - Notice that the train is added to the table and Firebase. 
 ```
-![addTrain](assest/images/addTrain.gif)
+![addTrain](assets/images/addTrain.gif)
 
 ###### Remove Train
 ```
