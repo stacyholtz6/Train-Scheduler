@@ -34,7 +34,7 @@
 --- Train table showing trains that have been added.
 --- Add train form for user to fill out. 
 ```
-![Landing Page](assets/images/landingPage.png)
+![landingPage](assets/images/landingPage.png)
 
 #### Examples:
 
@@ -43,13 +43,13 @@
 - Add a train to the table and watch moment.js calculate train times.
 - Notice that the train is added to the table and Firebase. 
 ```
-![Add Train](assets/images/addTrain.gif)
+![addTrain](assets/images/addTrain.gif)
 
 ###### Remove Train
 ```
 - Click on the trash can to remove the train.
 - Train is removed from table and Firebase. 
 ```
-![Remove Train](assets/images/removeTrain.gif)
+![removeTrain](assets/images/removeTrain.gif)
 
 
