@@ -13,6 +13,9 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
+// hide modal?
+// $('#myModal').modal('hide')
+
 // button for adding trains
 $("#add-train-btn").on("click", function (event) {
   event.preventDefault();
@@ -91,23 +94,22 @@ database.ref().on("child_added", function (childSnapshot) {
     $("<td>").text(trainFrequency),
     $("<td>").text((nextTrain).format("HH:mm")),
     $("<td>").text(minutesAway),
-    $("<td>").html("<i class='fas fa-trash-alt'  data-key=" + childSnapshot.key + "></i>")
+    $("<td>").html("<i class='fas fa-trash-alt trash' data-key=" + childSnapshot.key + "></i>")
   )
   // append the new row to the table
   $("#train-table > tbody").append(newRow);
 });
 
 // this deletes it from firebase - have to find the unique key assigned to each train
-$("#train-table").on("click", ".fas", function () {
+$("#train-table").on("click", ".trash", function () {
   var key = $(this).attr("data-key");
   database.ref(key).remove();
   console.log('key', key);
 });
 
-// remove the row from the table when the icon is clicked
-$(document).on("click", ".fas", function () {
+// remove the row from the table when the trash icon is clicked
+$(document).on("click", ".trash", function () {
   $(this).closest("tr").remove();
   return false;
-  console.log("this" + this);
 });
 

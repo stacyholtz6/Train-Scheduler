@@ -1,5 +1,22 @@
+body {
+  background: url("../Images/sayagata-400px.png")
+}
+
 .main {
   margin-bottom: 90px;
+}
+
+.card {
+  border: 15px solid #0052cc;
+
+}
+
+.btn, .jumbotron, nav {
+  background-color: #0052cc;
+}
+
+.trash:hover {
+color: red;
 }
 
 .nav-link:hover {
@@ -11,6 +28,6 @@
 }
 
 .fa-github,
-.copy, .navbar {
+.copy, .navbar, .jumbotron, .btn {
   color: rgb(227,227,227);
 }
