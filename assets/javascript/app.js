@@ -13,9 +13,6 @@ firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
 
-// hide modal?
-// $('#myModal').modal('hide')
-
 // button for adding trains
 $("#add-train-btn").on("click", function (event) {
   event.preventDefault();
